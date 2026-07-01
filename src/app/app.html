@@ -1,19 +1,5 @@
 <tui-root>
+
   <router-outlet />
-  @if (characterStore.isLoading()) {
-    <p>Chargement...</p>
-  }
 
-  @if (characterStore.error()) {
-    <p>{{ characterStore.error() }}</p>
-  }
-
-  <p>Total : {{ characterStore.totalCharacters() }}</p>
-  <p>Page : {{ characterStore.page() }} / {{ characterStore.totalPages() }}</p>
-
-  @for (character of characterStore.characters(); track character.id) {
-    <article>
-      <h2>{{ character.name }}</h2>
-    </article>
-  }
 </tui-root>

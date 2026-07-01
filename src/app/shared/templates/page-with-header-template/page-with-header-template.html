@@ -1,0 +1,29 @@
+<header tuiNavigationHeader>
+    <span tuiNavigationSegments>
+        <button appearance="secondary-grayscale" tuiButton type="button">
+            Personnages
+        </button>
+        <button appearance="secondary-grayscale" tuiButton tuiChevron tuiDropdownAuto type="button"
+            [tuiDropdown]="products">
+            <span [style.overflow]="'hidden'" [style.text-overflow]="'ellipsis'">
+                A very very long project
+            </span>
+            <ng-template #products>
+                <tui-data-list size="s">
+                    <button tuiOption type="button">
+                        A very very long project
+                        <tui-icon icon="@tui.check" [style.font-size.em]="1" [style.margin-inline-start.rem]="0.5" />
+                    </button>
+                    <button tuiOption type="button">
+                        Something else
+                    </button>
+                </tui-data-list>
+            </ng-template>
+        </button>
+        <app-theme-toggle />
+    </span>
+</header>
+
+<div class="p-4 bg-(--tui-background-base)">
+    <router-outlet />
+</div>
