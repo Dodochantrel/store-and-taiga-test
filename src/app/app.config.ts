@@ -1,12 +1,10 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideStore } from '@ngrx/store';
+import { provideTaiga } from '@taiga-ui/core';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
-    provideRouter(routes)
-  ]
+  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes), provideStore(), provideTaiga()],
 };
