@@ -2,7 +2,7 @@ import { signalStore, withComputed, withProps, withState } from '@ngrx/signals';
 import { CharactersRoutes } from '../../core/api/characters/characters-routes';
 import { httpResource } from '@angular/common/http';
 import { InfoDto } from '../../core/api/info-dto';
-import { GetAllCharactersDto } from '../../core/api/characters/dtos/get-all-characters-dto';
+import { GetAllCharactersDto, mapToCharacterModels } from '../../core/api/characters/dtos/get-all-characters-dto';
 
 type CharacterState = {
   currentPage: number;
@@ -30,13 +30,13 @@ export const CharacterStore = signalStore(
         }),
     })),
     withComputed(({ _characters }) => ({
-        users: () => {
-            return _characters.hasValue() ? _characters.value().results : [];
+        characters: () => {
+            return _characters.hasValue() ? mapToCharacterModels(_characters.value().results) : [];
         },
-        usersLoading: () => {
+        charactersLoading: () => {
             return _characters.isLoading();
         },
-        usersError: () => {
+        charactersError: () => {
             return _characters.error();
         },
         totalPages: () => {
