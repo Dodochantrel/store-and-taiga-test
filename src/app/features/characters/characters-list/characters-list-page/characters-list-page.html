@@ -1,9 +1,9 @@
 <tui-textfield iconStart="@tui.search" #m tuiTextfieldSize="m">
-    <label tuiLabel>I am a label</label>
+    <label tuiLabel>Rechercher par nom</label>
     <input
         [value]="store.searchTerm()"
         (input)="store.setSearchTerm(($any($event.target)).value)"
-        placeholder="I am placeholder"
+        placeholder="Rick Sanchez"
         tuiInput
     />
 </tui-textfield>
@@ -37,6 +37,8 @@
                     </span>
                 </h3>
             </header>
+
+            <button appearance="flat" [routerLink]="'details/' + character.id" tuiButton type="button" size="s">Flat</button>
         </div>
     }
 
@@ -47,3 +49,5 @@
     [length]="store.count()"
     (indexChange)="store.goToPage($event + 1)"
 />
+
+<router-outlet />

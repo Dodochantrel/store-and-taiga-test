@@ -1,9 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
 export class CharactersRoutes {
-  private readonly httpcClient: HttpClient = inject(HttpClient);
   private readonly baseUrl: string = environment.apiUrl;
 
   getAllUrl(page: number, name?: string): string {
@@ -13,5 +10,9 @@ export class CharactersRoutes {
       params.append('name', name);
     }
     return `${this.baseUrl}/character/?${params.toString()}`;
+  }
+
+  getOneUrl(id: number): string {
+    return `${this.baseUrl}/character/${id}`;
   }
 }

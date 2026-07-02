@@ -1,6 +1,6 @@
 import { CharacterGender, CharacterModel, CharacterStatus } from "../../../models/character-model";
 
-export interface GetAllCharactersDto {
+export interface GetCharacterDto {
   id: number;
   name: string;
   status: CharacterStatus;
@@ -21,7 +21,7 @@ export interface GetAllCharactersDto {
   created: string;
 }
 
-export function mapToCharacterModel(dto: GetAllCharactersDto): CharacterModel {
+export function mapToCharacterModel(dto: GetCharacterDto): CharacterModel {
   const characterModel = new CharacterModel(dto.id, dto.name);
   characterModel.status = dto.status;
   characterModel.species = dto.species;
@@ -43,6 +43,6 @@ export function mapToCharacterModel(dto: GetAllCharactersDto): CharacterModel {
   return characterModel;
 }
 
-export function mapToCharacterModels(dtos: GetAllCharactersDto[]): CharacterModel[] {
+export function mapToCharacterModels(dtos: GetCharacterDto[]): CharacterModel[] {
   return dtos.map((dto) => mapToCharacterModel(dto));
 }

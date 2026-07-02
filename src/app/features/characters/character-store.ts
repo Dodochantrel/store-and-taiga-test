@@ -2,7 +2,7 @@ import { signalStore, withComputed, withMethods, withProps } from '@ngrx/signals
 import { CharactersRoutes } from '../../core/api/characters/characters-routes';
 import { httpResource } from '@angular/common/http';
 import { InfoDto } from '../../core/api/info-dto';
-import { GetAllCharactersDto, mapToCharacterModels } from '../../core/api/characters/dtos/get-all-characters-dto';
+import { GetCharacterDto, mapToCharacterModels } from '../../core/api/characters/dtos/get-character-dto';
 import { inject } from '@angular/core';
 import { CharactersUrlStateService } from './characters-url-state.service';
 
@@ -13,7 +13,7 @@ export const CharacterStore = signalStore(
         queryState: inject(CharactersUrlStateService),
     })),
     withProps(({ charactersApi, queryState }) => ({
-        _characters: httpResource<InfoDto<GetAllCharactersDto>>(() => {
+        _characters: httpResource<InfoDto<GetCharacterDto>>(() => {
             return charactersApi.getAllUrl(queryState.currentPage(), queryState.searchTerm());
         }),
     })),
