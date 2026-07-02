@@ -5,6 +5,7 @@ import { InfoDto } from '../../core/api/info-dto';
 import { GetCharacterDto, mapToCharacterModels } from '../../core/api/characters/dtos/get-character-dto';
 import { inject } from '@angular/core';
 import { CharactersUrlStateService } from './characters-url-state.service';
+import { CharacterGender } from '../../core/models/character-model';
 
 export const CharacterStore = signalStore(
     { providedIn: 'root' },
@@ -14,7 +15,7 @@ export const CharacterStore = signalStore(
     })),
     withProps(({ charactersApi, queryState }) => ({
         _characters: httpResource<InfoDto<GetCharacterDto>>(() => {
-            return charactersApi.getAllUrl(queryState.currentPage(), queryState.searchTerm());
+            return charactersApi.getAllUrl(queryState.currentPage(), queryState.searchTerm(), queryState.gender());
         }),
     })),
     withComputed(({ _characters, queryState }) => ({
@@ -39,6 +40,9 @@ export const CharacterStore = signalStore(
         searchTerm: () => {
             return queryState.searchTerm();
         },
+        gender: () => {
+            return queryState.gender();
+        }
     })),
     withMethods((store) => ({
         goToPage: (page: number) => {
@@ -47,5 +51,8 @@ export const CharacterStore = signalStore(
         setSearchTerm: (searchTerm: string) => {
             store.queryState.setSearchTerm(searchTerm);
         },
+        setGender: (gender: CharacterGender) => {
+            store.queryState.setGender(gender);
+        }
     })),
 )

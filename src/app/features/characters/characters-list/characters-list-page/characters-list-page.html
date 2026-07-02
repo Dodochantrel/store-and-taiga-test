@@ -1,12 +1,32 @@
-<tui-textfield iconStart="@tui.search" #m tuiTextfieldSize="m">
-    <label tuiLabel>Rechercher par nom</label>
-    <input
-        [value]="store.searchTerm()"
-        (input)="store.setSearchTerm(($any($event.target)).value)"
-        placeholder="Rick Sanchez"
-        tuiInput
-    />
-</tui-textfield>
+<div class="flex gap-2">
+
+    <tui-textfield iconStart="@tui.search" #m tuiTextfieldSize="m" class="flex-1">
+        <label tuiLabel>Rechercher par nom</label>
+        <input
+            [value]="store.searchTerm()"
+            (input)="store.setSearchTerm(($any($event.target)).value)"
+            placeholder="Rick Sanchez"
+            tuiInput
+        />
+    </tui-textfield>
+
+    <tui-textfield tuiChevron class="flex-1">
+        <input tuiSelect [ngModel]="store.gender()" (ngModelChange)="store.setGender($event)" />
+
+        <tui-data-list *tuiDropdown>
+            @for (gender of characterGenders; track gender.value) {
+            <button
+                tuiOption
+                type="button"
+                [value]="gender.value"
+            >
+                {{ gender.label }}
+            </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+
+</div>
 
 <div class="flex gap-4 flex-wrap justify-evenly mt-4">
 
