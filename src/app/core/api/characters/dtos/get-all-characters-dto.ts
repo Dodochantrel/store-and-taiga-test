@@ -1,12 +1,12 @@
-import { CharacterModel } from "../../../models/character-model";
+import { CharacterGender, CharacterModel, CharacterStatus } from "../../../models/character-model";
 
 export interface GetAllCharactersDto {
   id: number;
   name: string;
-  status: string;
+  status: CharacterStatus;
   species: string;
   type: string;
-  gender: string;
+  gender: CharacterGender;
   origin: {
     name: string;
     url: string;

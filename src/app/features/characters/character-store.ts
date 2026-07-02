@@ -1,35 +1,23 @@
-import { signalStore, withComputed, withProps, withState } from '@ngrx/signals';
+import { signalStore, withComputed, withMethods, withProps } from '@ngrx/signals';
 import { CharactersRoutes } from '../../core/api/characters/characters-routes';
 import { httpResource } from '@angular/common/http';
 import { InfoDto } from '../../core/api/info-dto';
 import { GetAllCharactersDto, mapToCharacterModels } from '../../core/api/characters/dtos/get-all-characters-dto';
-
-type CharacterState = {
-  currentPage: number;
-  count: number;
-  isLoading: boolean;
-  searchTerm: string;
-};
-
-const initialState: CharacterState = {
-  currentPage: 0,
-  count: 0,
-  isLoading: false,
-  searchTerm: '',
-};
+import { inject } from '@angular/core';
+import { CharactersUrlStateService } from './characters-url-state.service';
 
 export const CharacterStore = signalStore(
     { providedIn: 'root' },
-     withState(initialState),
      withProps(() => ({
         charactersApi: new CharactersRoutes(),
+        queryState: inject(CharactersUrlStateService),
     })),
-    withProps(({ charactersApi, currentPage, searchTerm }) => ({
+    withProps(({ charactersApi, queryState }) => ({
         _characters: httpResource<InfoDto<GetAllCharactersDto>>(() => {
-            return charactersApi.getAllUrl(currentPage(), searchTerm());
+            return charactersApi.getAllUrl(queryState.currentPage(), queryState.searchTerm());
         }),
     })),
-    withComputed(({ _characters }) => ({
+    withComputed(({ _characters, queryState }) => ({
         characters: () => {
             return _characters.hasValue() ? mapToCharacterModels(_characters.value().results) : [];
         },
@@ -42,5 +30,22 @@ export const CharacterStore = signalStore(
         totalPages: () => {
             return _characters.value()?.info.pages ?? 0;
         },
-    }))
+        count: () => {
+            return _characters.value()?.info.count ?? 0;
+        },
+        currentPage: () => {
+            return queryState.currentPage();
+        },
+        searchTerm: () => {
+            return queryState.searchTerm();
+        },
+    })),
+    withMethods((store) => ({
+        goToPage: (page: number) => {
+            store.queryState.setCurrentPage(page);
+        },
+        setSearchTerm: (searchTerm: string) => {
+            store.queryState.setSearchTerm(searchTerm);
+        },
+    })),
 )

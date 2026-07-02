@@ -1,11 +1,49 @@
 <tui-textfield iconStart="@tui.search" #m tuiTextfieldSize="m">
     <label tuiLabel>I am a label</label>
-    <input placeholder="I am placeholder" tuiInput />
+    <input
+        [value]="store.searchTerm()"
+        (input)="store.setSearchTerm(($any($event.target)).value)"
+        placeholder="I am placeholder"
+        tuiInput
+    />
 </tui-textfield>
 
-<div class="flex gap-4 flex-wrap">
+<div class="flex gap-4 flex-wrap justify-evenly mt-4">
 
-    @for (item of store.characters(); track $index) {
+    @for (character of store.characters(); track $index) {
+        <div appearance="floating" tuiCardLarge>
+        
+            <section class="relative">
+                <img [src]="character.image" [alt]="character.name + ' image'" class="w-full h-full object-cover object-center rounded-t-(--t-radius)" />
+                <div class="absolute top-3 right-3">
+                    <input appearance="negative" checkedIcon="@tui.heart-filled" size="s" 
+                        tuiLike type="checkbox" uncheckedIcon="@tui.heart" />
+                </div>
+            </section>
+
+            <header tuiHeader>
+                <h3 tuiTitle>
+                    <span class="flex items-center justify-between gap-2">
+                        {{ character.name }}
+                        <tui-icon [icon]="'@tui.' + character.iconForStatus" aria-label="Character is dead"/>
+                    </span>
+                    <span tuiSubtitle>
+                        <tui-icon icon='@tui.compass' aria-label="Origine" />
+                        Origine: {{ character.origin?.name }}
+                    </span>
+                    <span tuiSubtitle>
+                        <tui-icon icon='@tui.shield-plus' aria-label="Gender" />
+                        Gender: {{ character.gender }}
+                    </span>
+                </h3>
+            </header>
+        </div>
     }
 
 </div>
+
+<tui-pagination class="my-4"
+    [index]="store.currentPage() - 1"
+    [length]="store.count()"
+    (indexChange)="store.goToPage($event + 1)"
+/>
