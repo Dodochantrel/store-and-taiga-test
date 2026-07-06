@@ -3,8 +3,8 @@
     <tui-textfield iconStart="@tui.search" #m tuiTextfieldSize="m" class="flex-1">
         <label tuiLabel>Rechercher par nom</label>
         <input
-            [value]="store.searchTerm()"
-            (input)="store.setSearchTerm(($any($event.target)).value)"
+            [value]="searchValue()"
+            (input)="onSearchInput(($any($event.target)).value)"
             placeholder="Rick Sanchez"
             tuiInput
         />
@@ -31,7 +31,7 @@
 <div class="flex gap-4 flex-wrap justify-evenly mt-4">
 
     @for (character of store.characters(); track $index) {
-        <div appearance="floating" tuiCardLarge>
+        <div appearance="floating" tuiCardLarge class="w-90">
         
             <section class="relative">
                 <img [src]="character.image" [alt]="character.name + ' image'" class="w-full h-full object-cover object-center rounded-t-(--t-radius)" />
@@ -43,7 +43,7 @@
 
             <header tuiHeader>
                 <h3 tuiTitle>
-                    <span class="flex items-center justify-between gap-2">
+                    <span class="">
                         {{ character.name }}
                         <tui-icon [icon]="'@tui.' + character.iconForStatus" aria-label="Character is dead"/>
                     </span>
